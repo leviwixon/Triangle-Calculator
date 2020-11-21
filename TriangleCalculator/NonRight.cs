@@ -8,11 +8,9 @@ namespace TriangleCalculator
 {
     class NonRight : Triangle
     {
-        public static double maxAngle = 180.00;
-        public double angle1, angle2, angle3, side1, side2, side3 = 0;
 
         public override double CalcSides()
-        {
+        { 
             throw new NotImplementedException();
         }
 
