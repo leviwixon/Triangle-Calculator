@@ -42,6 +42,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.WarningLabel = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // Side1
@@ -165,12 +166,21 @@
             this.WarningLabel.TabIndex = 13;
             this.WarningLabel.Visible = false;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(444, 34);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(344, 27);
+            this.comboBox1.TabIndex = 14;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(850, 436);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.WarningLabel);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label6);
@@ -210,6 +220,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label WarningLabel;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

@@ -9,17 +9,17 @@ namespace TriangleCalculator
     class NonRight : Triangle
     {
 
-        public override double CalcSides()
+        public override void CalcSides()
         { 
             throw new NotImplementedException();
         }
 
-        public override double findArea()
+        public override void findArea()
         {
             throw new NotImplementedException();
         }
 
-        public override double perimeter()
+        public override void perimeter()
         {
             throw new NotImplementedException();
         }

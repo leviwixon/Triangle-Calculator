@@ -15,10 +15,10 @@ namespace TriangleCalculator
     {
         private double totalAngle;
         private int i = 0;
+        public double curPerim, curArea;
         public Form1()
         {
             InitializeComponent();
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -54,27 +54,29 @@ namespace TriangleCalculator
                 //Error checking the total angles and sides by using the warning label
                 //WarningLabel.Text = String.Concat("", i);
                 //WarningLabel.Visible = true;
-                Double s1, s2, s3;
-                Double a1, a2, a3;
-                s1 = assignment(Side1);
-                s2 = assignment(Side2);
-                s3 = assignment(Side3);
-                a1 = assignment(Angle1);
-                a2 = assignment(Angle2);
-                a3 = assignment(Angle3);
+                double[] s = new double[3];
+                double[] a = new double[3];
 
-                if (a1 != 0 && a2 != 0 && a3 != 0)
+                s[0] = assignment(Side1);
+                s[1] = assignment(Side2);
+                s[2] = assignment(Side3);
+                a[0] = assignment(Angle1);
+                a[1] = assignment(Angle2);
+                a[2] = assignment(Angle3);
+
+                if (!a.Contains(0))
                 {
-                    totalAngle = a1 + a2 + a3;
-                    if (totalAngle != 180)
-                    {
-                        WarningLabel.Text = "Sum of Angles must be 180\nPlease try again with valid angles.";
-                        WarningLabel.Visible = true;
-                    }
+                    totalAngle = a.Sum();
                 }
-                if (a1 == 90 || a2 == 90 || a3 = 90)
+
+                if (a.Contains(90))
                 {
-                    new RightTrianlge tri = RightTriangle();
+                    RightTriangle tri = new RightTriangle(a, s);
+                    tri.CalcSides();
+                    tri.perimeter();
+                    tri.findArea();
+                    WarningLabel.Text = string.Concat("", Math.Round(tri.s[0], 3), " , ", Math.Round(tri.s[1], 2), " , ", Math.Round(tri.s[2], 2), " , ", Math.Round(tri.a[0], 2), " , ", Math.Round(tri.a[1], 2), " , ", Math.Round(tri.a[2], 2), " , ", Math.Round(tri.Perimeter, 2), " , ", Math.Round(tri.Area, 2));
+                    WarningLabel.Visible = true;
                 }
             }
              
