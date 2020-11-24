@@ -43,6 +43,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.WarningLabel = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // Side1
@@ -169,10 +170,21 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "RightTriangle"});
             this.comboBox1.Location = new System.Drawing.Point(444, 34);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(344, 27);
             this.comboBox1.TabIndex = 14;
+            this.comboBox1.Visible = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Window;
+            this.panel1.Location = new System.Drawing.Point(407, 78);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(381, 279);
+            this.panel1.TabIndex = 15;
             // 
             // Form1
             // 
@@ -180,6 +192,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(850, 436);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.WarningLabel);
             this.Controls.Add(this.button1);
@@ -221,6 +234,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label WarningLabel;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

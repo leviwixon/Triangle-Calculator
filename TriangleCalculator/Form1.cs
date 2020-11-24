@@ -20,7 +20,7 @@ namespace TriangleCalculator
         {
             InitializeComponent();
         }
-
+        #region ButtonLogic_REVIST_LOGIC
         private void button1_Click(object sender, EventArgs e)
         {
             WarningLabel.Text = "";
@@ -113,4 +113,6 @@ namespace TriangleCalculator
             return 0;
         }
     }
+    #endregion
+
 }

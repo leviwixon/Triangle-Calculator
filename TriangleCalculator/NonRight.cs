@@ -8,6 +8,14 @@ namespace TriangleCalculator
 {
     class NonRight : Triangle
     {
+        public NonRight(double[] angles, double[] sides)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                s[i] = sides[i];
+                a[i] = angles[i];
+            }
+        }
 
         public override void CalcSides()
         { 
@@ -38,5 +46,6 @@ namespace TriangleCalculator
         {
 
         }
+
     }
 }

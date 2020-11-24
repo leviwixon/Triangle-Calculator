@@ -9,9 +9,8 @@ namespace TriangleCalculator
     class RightTriangle : Triangle
     {
         private int rightIndex;
-        private Double tmpa, tmps;
-        public double[] a = new double[3];
-        public double[] s = new double[3];
+        
+
 
         public RightTriangle(double[] angles, double[] sides)
         {
@@ -173,39 +172,7 @@ namespace TriangleCalculator
             }
         }
 
-        /// <summary>
-        /// This method essenitally floats up the side that posesses value that isn't a hypotenuse to the user.
-        /// It is used to help solve 2 angle problems by narrowing down what approach to take (whether it be sin or cosine.
-        /// </summary>
-        private void bringSidesUp()
-        {
-               if (s[1] != 0 && s[0] == 0)
-               {
-                    tmps = s[1];
-                    tmpa = a[1];
-                    s[1] = s[0];
-                    a[1] = a[0];
-                    s[0] = tmps;
-                    a[0] = tmpa;
-               }
-        }
 
-        /// <summary>
-        /// This method does the same as bringSidesUp, however it is used to help narrow down what angle needs to be filled out (with the exceptions of the right angle).
-        /// It helps solve 2 side problems by narrowing down what approach should be taken.
-        /// </summary>
-        private void bringAnglesUp()
-        {
-            if (a[1] != 0)
-            {
-                tmps = s[1];
-                tmpa = a[1];
-                s[1] = s[0];
-                a[1] = a[0];
-                s[0] = tmps;
-                a[0] = tmpa;
-            }
-        }
 
         /// <summary>
         /// Looks for a third angle IF it hasn't already been found.
@@ -240,6 +207,9 @@ namespace TriangleCalculator
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public override void findArea()
         {
             this.Area = (s[0] * s[1]) / 2;
