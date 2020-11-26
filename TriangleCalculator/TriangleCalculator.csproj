@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Special.cs" />
     <Compile Include="RightTriangle.cs" />
     <Compile Include="NonRight.cs" />
     <Compile Include="Form1.cs">
