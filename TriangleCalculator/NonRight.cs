@@ -199,6 +199,10 @@ namespace TriangleCalculator
             {
                 triType = 2;
             }
+            if (RightExists())
+            {
+                triType = 1;
+            }
         }
 
         /// <summary>
@@ -231,6 +235,18 @@ namespace TriangleCalculator
                 }
             }
             return val;
+        }
+
+        private bool RightExists()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (Math.Round(a[i]) == 90)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>

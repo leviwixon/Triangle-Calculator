@@ -68,13 +68,7 @@ namespace TriangleCalculator
                     a[1] = assignment(Angle2);
                     a[2] = assignment(Angle3);
 
-                    
-                    if (CheckNegative())
-                    {
-                        WarningLabel.Text = "Please enter positive angles and sides.";
-                        WarningLabel.Visible = true;
-                    }
-                    else if (a.Contains(90))
+                    if (a.Contains(90))
                     {
                         RightTriangle tri = new RightTriangle(a, s);
                         RightSolve(tri);
@@ -88,17 +82,20 @@ namespace TriangleCalculator
             }
         }
 
-        private bool CheckNegative()
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                if (a[j] < 0 || s[j] < 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        // Exists in case calculator is ever made to solve unit circle problems where angles are negative,
+        // otherwise negatives cannot exist because the input validation does not have any specification for
+        // approaching a '-' entry;
+        //private bool CheckNegative()
+        //{
+        //    for (int j = 0; j < 3; j++)
+        //    {
+        //        if (a[j] < 0 || s[j] < 0)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
         #endregion
 
         #region Right
