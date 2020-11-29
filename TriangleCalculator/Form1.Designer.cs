@@ -57,48 +57,60 @@
             // 
             this.Side1.Location = new System.Drawing.Point(83, 56);
             this.Side1.Name = "Side1";
+            this.Side1.ReadOnly = true;
             this.Side1.Size = new System.Drawing.Size(82, 26);
             this.Side1.TabIndex = 0;
+            this.Side1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             this.Side1.Leave += new System.EventHandler(this.BoxStatus_leave);
             // 
             // Side2
             // 
             this.Side2.Location = new System.Drawing.Point(83, 110);
             this.Side2.Name = "Side2";
+            this.Side2.ReadOnly = true;
             this.Side2.Size = new System.Drawing.Size(82, 26);
             this.Side2.TabIndex = 1;
+            this.Side2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             this.Side2.Leave += new System.EventHandler(this.BoxStatus_leave);
             // 
             // Side3
             // 
             this.Side3.Location = new System.Drawing.Point(83, 160);
             this.Side3.Name = "Side3";
+            this.Side3.ReadOnly = true;
             this.Side3.Size = new System.Drawing.Size(82, 26);
             this.Side3.TabIndex = 2;
+            this.Side3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             this.Side3.Leave += new System.EventHandler(this.BoxStatus_leave);
             // 
             // Angle1
             // 
             this.Angle1.Location = new System.Drawing.Point(252, 56);
             this.Angle1.Name = "Angle1";
+            this.Angle1.ReadOnly = true;
             this.Angle1.Size = new System.Drawing.Size(82, 26);
             this.Angle1.TabIndex = 3;
+            this.Angle1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             this.Angle1.Leave += new System.EventHandler(this.BoxStatus_leave);
             // 
             // Angle2
             // 
             this.Angle2.Location = new System.Drawing.Point(252, 110);
             this.Angle2.Name = "Angle2";
+            this.Angle2.ReadOnly = true;
             this.Angle2.Size = new System.Drawing.Size(82, 26);
             this.Angle2.TabIndex = 4;
+            this.Angle2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             this.Angle2.Leave += new System.EventHandler(this.BoxStatus_leave);
             // 
             // Angle3
             // 
             this.Angle3.Location = new System.Drawing.Point(252, 160);
             this.Angle3.Name = "Angle3";
+            this.Angle3.ReadOnly = true;
             this.Angle3.Size = new System.Drawing.Size(82, 26);
             this.Angle3.TabIndex = 5;
+            this.Angle3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Angle3_KeyPress);
             // 
             // label1
             // 
@@ -168,10 +180,12 @@
             // 
             this.WarningLabel.AutoSize = true;
             this.WarningLabel.Enabled = false;
-            this.WarningLabel.Location = new System.Drawing.Point(69, 196);
+            this.WarningLabel.Location = new System.Drawing.Point(37, 257);
             this.WarningLabel.Name = "WarningLabel";
-            this.WarningLabel.Size = new System.Drawing.Size(0, 19);
+            this.WarningLabel.Size = new System.Drawing.Size(93, 19);
             this.WarningLabel.TabIndex = 13;
+            this.WarningLabel.Text = "this is test text";
+            this.WarningLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.WarningLabel.Visible = false;
             // 
             // panel1
@@ -256,7 +270,7 @@
             // Ratio
             // 
             this.Ratio.AutoSize = true;
-            this.Ratio.Location = new System.Drawing.Point(358, 337);
+            this.Ratio.Location = new System.Drawing.Point(347, 408);
             this.Ratio.Name = "Ratio";
             this.Ratio.Size = new System.Drawing.Size(369, 19);
             this.Ratio.TabIndex = 23;

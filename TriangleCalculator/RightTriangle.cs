@@ -41,6 +41,7 @@ namespace TriangleCalculator
             {
                 tryCalcsSSA();
             }
+            CheckValid();
         }
         /// <summary>
         /// Due to directionality mattering when using the law of sines (e.g what is opposite of what angle is crucial for real results), this function
@@ -185,6 +186,20 @@ namespace TriangleCalculator
                 a[1] = a[0];
                 s[0] = tmps;
                 a[0] = tmpa;
+            }
+        }
+        private void CheckValid()
+        {
+            if (a[0] + a[1] + a[2] > maxAngle)
+            {
+                Invalidate();
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                if (s[i] > s[(i + 1) % 3] + s[(i + 2) % 3])
+                {
+                    Invalidate();
+                }
             }
         }
     }

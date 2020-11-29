@@ -335,6 +335,10 @@ namespace TriangleCalculator
                 {
                     Invalidate();
                 }
+                if (s[i] > s[(i + 1) % 3] + s[(i + 2) % 3])
+                {
+                    Invalidate();
+                }
             }
         }
     }

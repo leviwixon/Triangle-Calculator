@@ -8,12 +8,9 @@ namespace TriangleCalculator
     public partial class Form1 : Form
     {
         public Point[] points = new Point[3];
-        private double totalAngle;
         private int i = 0;
-        public double curPerim, curArea;
         public bool drawType;
         private double triMid, triHeight;
-        public double oAngle;
         public int swap = 1;
         double[] s = new double[3];
         double[] a = new double[3];
@@ -24,6 +21,7 @@ namespace TriangleCalculator
         #region ButtonLogic_REVIST_LOGIC
         private void button1_Click(object sender, EventArgs e)
         {
+            // This resets the swap variable in case a user enters another possible 2 triangle.
             swap = 1;
             Solve();
         }
@@ -45,7 +43,7 @@ namespace TriangleCalculator
 
                 if (i < 3)
                 {
-                    WarningLabel.Text = string.Concat("Please enter at least 3 fields. ", i);
+                    WarningLabel.Text = string.Concat("Please enter at least 3 fields. ");
                     WarningLabel.Visible = true;
                 }
                 else if (Side1.Text.Equals(String.Empty) && Side2.Text.Equals(string.Empty) && Side3.Text.Equals(string.Empty))
@@ -53,11 +51,6 @@ namespace TriangleCalculator
                     WarningLabel.Text = "Please enter at least one side.";
                     WarningLabel.Visible = true;
                 }
-                //else if (Angle1.Text.Equals(String.Empty) && Angle2.Text.Equals(string.Empty) && Angle3.Text.Equals(string.Empty))
-                //{
-                //    WarningLabel.Text = "Please enter at least one angle.";
-                //    WarningLabel.Visible = true;
-                //}
                 else
                 {
 
@@ -69,11 +62,6 @@ namespace TriangleCalculator
                     a[1] = assignment(Angle2);
                     a[2] = assignment(Angle3);
 
-                    if (!a.Contains(0))
-                    {
-                        totalAngle = a.Sum();
-                    }
-
                     if (a.Contains(90))
                     {
                         RightTriangle tri = new RightTriangle(a, s);
@@ -81,13 +69,6 @@ namespace TriangleCalculator
                     }
                     else
                     {
-                        for (int j = 0; j < 3; j++)
-                        {
-                            if (a[j] != 0)
-                            {
-                                oAngle = a[j];
-                            }
-                        }
                         NonRight tri = new NonRight(a, s);
                         NonRightSolve(tri);
                     }
@@ -100,9 +81,6 @@ namespace TriangleCalculator
             tri.CalcSides();
             tri.perimeter();
             tri.findArea();
-            WarningLabel.Text = string.Concat("", Math.Round(tri.s[0], 3), " , ", Math.Round(tri.s[1], 2), " , ", Math.Round(tri.s[2], 2), " , ", Math.Round(tri.a[0], 2), " , ", Math.Round(tri.a[1], 2), " , ", Math.Round(tri.a[2], 2), " , ", Math.Round(tri.Perimeter, 2), " , ", Math.Round(tri.Area, 2));
-            WarningLabel.Visible = true;
-            drawType = true;
             GetPoints(tri);
             panel1.Paint += new PaintEventHandler(panel1_Paint);
             panel1.Visible = true;
@@ -117,9 +95,6 @@ namespace TriangleCalculator
             {
                 tri.perimeter();
                 tri.findArea();
-                //WarningLabel.Text = string.Concat("", Math.Round(tri.s[0], 3), " , ", Math.Round(tri.s[1], 2), " , ", Math.Round(tri.s[2], 2), " , ", Math.Round(tri.a[0], 2), " , ", Math.Round(tri.a[1], 2), " , ", Math.Round(tri.a[2], 2), " , ", Math.Round(tri.Perimeter, 2), " , ", Math.Round(tri.Area, 2), " , ", tri.triType);
-                //WarningLabel.Visible = true;
-                drawType = false;
                 GetPoints(tri);
                 panel1.Paint += new PaintEventHandler(panel1_Paint);
                 panel1.Visible = true;
@@ -170,15 +145,6 @@ namespace TriangleCalculator
             }
             return 0;
         }
-        public void DrawTriangle(object sender, PaintEventArgs e)
-        {
-            var p = sender as Panel;
-            var g = e.Graphics;
-
-            Brush brush = new SolidBrush(Color.Red);
-            g.FillPolygon(brush, points);
-
-        }
 
         private void TriSwitch_Click(object sender, EventArgs e)
         {
@@ -200,35 +166,35 @@ namespace TriangleCalculator
 
         private void PrintAnswers(Triangle t)
         {
-            double tmpa, tmps;
-            int n = 3;
-            for (int j = 0; j < n; j++)
-            {
-                for (int k = 0; k < n; k++)
+                double tmpa, tmps;
+                int n = 3;
+                for (int j = 0; j < n; j++)
                 {
-                    if ((s[j] == t.s[k] || a[j] == t.a[k]) && k != j && s[j] != 0 && a[j] != 0)
+                    for (int k = 0; k < n; k++)
                     {
-                        tmpa = t.a[k];
-                        tmps = t.s[k];
-                        t.s[k] = t.s[j];
-                        t.a[k] = t.a[j];
-                        t.s[j] = tmps;
-                        t.a[j] = tmpa;
+                        if ((s[j] == t.s[k] || a[j] == t.a[k]) && k != j && s[j] != 0 && a[j] != 0)
+                        {
+                            tmpa = t.a[k];
+                            tmps = t.s[k];
+                            t.s[k] = t.s[j];
+                            t.a[k] = t.a[j];
+                            t.s[j] = tmps;
+                            t.a[j] = tmpa;
+                        }
                     }
                 }
-            }
-            Side1.Text = (Math.Round(t.s[0], 3)).ToString();
-            Side2.Text = (Math.Round(t.s[1], 3)).ToString();
-            Side3.Text = (Math.Round(t.s[2], 3)).ToString();
-            Angle1.Text = (Math.Round(t.a[0], 3)).ToString();
-            Angle2.Text = (Math.Round(t.a[1], 3)).ToString();
-            Angle3.Text = (Math.Round(t.a[2], 3)).ToString();
-            AreaBox.Text = Math.Round(t.Area, 3).ToString();
-            PerimBox.Text = Math.Round(t.Perimeter, 3).ToString();
-            PerimBox.Visible = true;
-            AreaBox.Visible = true;
-            Perim.Visible = true;
-            AreaLbl.Visible = true;
+                Side1.Text = (Math.Round(t.s[0], 3)).ToString();
+                Side2.Text = (Math.Round(t.s[1], 3)).ToString();
+                Side3.Text = (Math.Round(t.s[2], 3)).ToString();
+                Angle1.Text = (Math.Round(t.a[0], 3)).ToString();
+                Angle2.Text = (Math.Round(t.a[1], 3)).ToString();
+                Angle3.Text = (Math.Round(t.a[2], 3)).ToString();
+                AreaBox.Text = Math.Round(t.Area, 3).ToString();
+                PerimBox.Text = Math.Round(t.Perimeter, 3).ToString();
+                PerimBox.Visible = true;
+                AreaBox.Visible = true;
+                Perim.Visible = true;
+                AreaLbl.Visible = true;            
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -245,7 +211,6 @@ namespace TriangleCalculator
             PerimBox.Visible = false;
             AreaLbl.Visible = false;
             TriSwitch.Visible = false;
-            swap = 1;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -293,20 +258,92 @@ namespace TriangleCalculator
             }
         }
 
+        /// <summary>
+        /// This function is called by the keyPress event for every textbox except for area and perimeter. Because the textboxes are readonly,
+        /// the only way to effectively edit them is to go through the keyPress event and the KeyReader function by extension. KeyReader leverages
+        /// the ASCII value of a key ((int)e.keyChar) in a switch statement so that keys that should not be pressed (such as letters) default to doing
+        /// nothing, while number keys, decimal keys, etc. have an append event tied to them.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void KeyReader(TextBox sender, KeyPressEventArgs e)
+        {
+            switch ((int)e.KeyChar)
+            {
+                case 48:
+                    sender.Text += "0";
+                    break;
+                case 49:
+                    sender.Text += "1";
+                    break;
+                case 50:
+                    sender.Text += "2";
+                    break;
+                case 51:
+                    sender.Text += "3";
+                    break;
+                case 52:
+                    sender.Text += "4";
+                    break;
+                case 53:
+                    sender.Text += "5";
+                    break;
+                case 54:
+                    sender.Text += "6";
+                    break;
+                case 55:
+                    sender.Text += "7";
+                    break;
+                case 56:
+                    sender.Text += "8";
+                    break;
+                case 57:
+                    sender.Text += "9";
+                    break;
+                case 46:
+                    if (!sender.Text.Contains("."))
+                    {
+                        sender.Text += ".";
+                    }
+                    break;
+                case 8:
+                    if (sender.Text.Length > 1)
+                    {
+                        sender.Text = sender.Text.Remove(sender.Text.Length - 1);
+                    }
+                    else
+                    {
+                        sender.Text = "";
+                    }
+                    break;
+                case 13:
+                    button1_Click(button1, new EventArgs());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Angle3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            KeyReader(sender as TextBox, e);
+        }
+
         private void GetPoints(Triangle t)
         {
+            int[] roundedAngles = new int[3];
+            for (int i = 0; i < 3; i++)
+            {
+                roundedAngles[i] = (int)(Math.Round(t.a[i]));
+            }
             // Preserves aspect ratio
-            float ratX = 150 / (float)((int)t.s[0]); ;
-            float ratY = 200 / (float)((int)t.s[1]);
+            float ratX = 200 / (float)(t.s[0]); ;
+            float ratY = 200 / (float)(t.s[1]);
             float ratio = Math.Min(ratX, ratY);
 
             int newWidth = (int)(t.s[0] * ratio);
             int newHeight = (int)(t.s[1] * ratio);
-            triHeight = (2 * t.Area) / t.s[2];
-            triMid = t.revPyth(t.s[1], triHeight);
-            triHeight = triHeight * ratio;
-            triMid = triMid * ratio;
-            if (t.a.Contains(90))
+            if (roundedAngles.Contains(90))
             {
                 drawType = false;
                 points[0] = new Point(80, 250);
@@ -315,11 +352,17 @@ namespace TriangleCalculator
             }
             else
             {
+                triHeight = (2 * t.Area) / t.s[0];
+                triMid = t.revPyth(t.s[1], triHeight);
+                triHeight = triHeight * ratio;
+                triMid = triMid * ratio;
+                drawType = true;
                 points[0] = new Point(80, 250);
                 points[1] = new Point((int)triMid, 250 - (int)triHeight);
                 points[2] = new Point(newWidth, 250);
             }
         }
+
     }
     #endregion
 }
