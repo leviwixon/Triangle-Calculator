@@ -7,6 +7,7 @@ namespace TriangleCalculator
 {
     public partial class Form1 : Form
     {
+        #region VarsUsed
         public Point[] points = new Point[3];
         private int i = 0;
         public bool drawType;
@@ -14,11 +15,14 @@ namespace TriangleCalculator
         public int swap = 1;
         double[] s = new double[3];
         double[] a = new double[3];
+
         public Form1()
         {
             InitializeComponent();
         }
-        #region ButtonLogic_REVIST_LOGIC
+        #endregion
+
+        #region Solve
         private void button1_Click(object sender, EventArgs e)
         {
             // This resets the swap variable in case a user enters another possible 2 triangle.
@@ -26,6 +30,10 @@ namespace TriangleCalculator
             Solve();
         }
 
+        /// <summary>
+        /// This grabs the variables from their textboxes and assigns them into an array, using a counter variable
+        /// to ensure the proper amount of information is provided.
+        /// </summary>
         private void Solve()
         {
             {
@@ -53,8 +61,6 @@ namespace TriangleCalculator
                 }
                 else
                 {
-
-
                     s[0] = assignment(Side1);
                     s[1] = assignment(Side2);
                     s[2] = assignment(Side3);
@@ -62,7 +68,13 @@ namespace TriangleCalculator
                     a[1] = assignment(Angle2);
                     a[2] = assignment(Angle3);
 
-                    if (a.Contains(90))
+                    
+                    if (CheckNegative())
+                    {
+                        WarningLabel.Text = "Please enter positive angles and sides.";
+                        WarningLabel.Visible = true;
+                    }
+                    else if (a.Contains(90))
                     {
                         RightTriangle tri = new RightTriangle(a, s);
                         RightSolve(tri);
@@ -76,6 +88,26 @@ namespace TriangleCalculator
             }
         }
 
+        private bool CheckNegative()
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (a[j] < 0 || s[j] < 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        #endregion
+
+        #region Right
+        /// <summary>
+        /// Solves a provided 90 degree triangle. This skips some steps that would usually require checking in the non-right case
+        /// and is only preformed if it is KNOWN that it is a 90 degree triangle. Should the product of some measurements produce a 90 degree triangle,
+        /// it must unfortunately go through the non-right solving mechanism.
+        /// </summary>
+        /// <param name="tri"></param>
         private void RightSolve(Triangle tri)
         {
             tri.CalcSides();
@@ -87,7 +119,13 @@ namespace TriangleCalculator
             panel1.Refresh();
             PrintAnswers(tri);
         }
+        #endregion
 
+        #region NonRight
+        /// <summary>
+        /// Solves non-right triangle, considering the possible edge cases along with it.
+        /// </summary>
+        /// <param name="tri"></param>
         private void NonRightSolve(Triangle tri)
         {
             tri.CalcSides();
@@ -113,39 +151,6 @@ namespace TriangleCalculator
             }
         }
 
-        private double assignment(TextBox t)
-        {
-            // Only assigns non-zero value when the textbox is not empty
-            // Does not need to verify how many sides and angles have been entered as it is already done by BoxStatus
-            double val = 0;
-            if (!t.Text.Equals(string.Empty))
-            {
-                val = double.Parse(t.Text);
-            }
-            return val;
-        }
-
-        private void BoxStatus_leave(object sender, EventArgs e)
-        {
-            // When the user leaves the box, it verifies if something has changed or if the string is empty
-            if (!(sender as TextBox).Text.Equals(string.Empty))
-            {
-                i++;
-            }
-        }
-
-        private int BoxStatus_enter(TextBox t)
-        {
-            // This acts as if the text box that is active has never been entered into
-            // If the user has entered into it, but deleted the info, the box will return to the state where nothing is entered yet
-            // Otherwise, if the user just modifies the numbers, the box will return to the state in which something was entered because of the boxstatus leave.
-            if (!t.Text.Equals(string.Empty))
-            {
-                return 1;
-            }
-            return 0;
-        }
-
         private void TriSwitch_Click(object sender, EventArgs e)
         {
             swap = swap * -1;
@@ -161,9 +166,69 @@ namespace TriangleCalculator
                 NonRightSolve(tri);
             }
         }
+        #endregion
 
+        #region TextBoxStuff
+        /// <summary>
+        /// Only assigns non-zero value when the textbox is not empty
+        /// Does not need to verify how many sides and angles have been entered as it is already done by BoxStatus
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private double assignment(TextBox t)
+        {
 
+            double val = 0;
+            if (!t.Text.Equals(string.Empty))
+            {
+                val = double.Parse(t.Text);
+            }
+            return val;
+        }
+        /// <summary>
+        /// When the user leaves the box, it verifies if something has changed or if the string is empty
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BoxStatus_leave(object sender, EventArgs e)
+        {
+            if (!(sender as TextBox).Text.Equals(string.Empty))
+            {
+                i++;
+            }
+        }
 
+        /// <summary>
+        /// This acts as if the text box that is active has never been entered into
+        /// If the user has entered into it, but deleted the info, the box will return to the state where nothing is entered yet
+        /// Otherwise, if the user just modifies the numbers, the box will return to the state in which something was entered because of the boxstatus leave.
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private int BoxStatus_enter(TextBox t)
+        {
+            
+            if (!t.Text.Equals(string.Empty))
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// This function judges which triangle to show in a 2 triangle case based upon a swap value that alternates between < 0 and > 0 as a result of 
+        /// negative multiplication.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        #endregion
+
+        #region Print/Clear
+        /// <summary>
+        /// This rearranges the answers that have likely been sorted into different forms over the course of being solved. It looks at the original input, and 
+        /// sorts the information as best it can into correct order. It then prints into all the boxes the information, and unhides them.
+        /// </summary>
+        /// <param name="t"></param>
         private void PrintAnswers(Triangle t)
         {
                 double tmpa, tmps;
@@ -197,6 +262,11 @@ namespace TriangleCalculator
                 AreaLbl.Visible = true;            
         }
 
+        /// <summary>
+        /// This essentially just resets the state of the calculator to default.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Clear_Click(object sender, EventArgs e)
         {
             Side1.Text = "";
@@ -212,50 +282,17 @@ namespace TriangleCalculator
             AreaLbl.Visible = false;
             TriSwitch.Visible = false;
         }
+        #endregion
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        #region KeyPress
+        /// <summary>
+        /// Occurs when any key is pressed for any textbox. It calls the switch statement in KeyReader to validate input.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Angle3_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Graphics g = panel1.CreateGraphics();
-            Pen p = new Pen(Color.Black);
-            g.DrawPolygon(p, points);
-            SolidBrush Bbrush = new SolidBrush(Color.Blue);
-            SolidBrush Rbrush = new SolidBrush(Color.Red);
-            if (drawType == true)
-            {
-                using (Rbrush)
-                {
-                    StringFormat sf = new StringFormat();
-                    g.DrawString("B", this.Font, Rbrush, points[1].X, points[1].Y - 10);
-                    g.DrawString("C", this.Font, Rbrush, points[0].X, points[0].Y - 20);
-                    g.DrawString("A", this.Font, Rbrush, points[2].X, points[2].Y + 10);
-
-                }
-                using (Bbrush)
-                {
-                    StringFormat sf = new StringFormat();
-                    g.DrawString("b", this.Font, Bbrush, points[2].X - 12, (points[2].Y + points[0].Y) / 2);
-                    g.DrawString("c", this.Font, Bbrush, (points[1].X + points[2].X) / 2 + 10, (points[2].Y + points[1].Y) / 2 - 10);
-                    g.DrawString("a", this.Font, Bbrush, (points[1].X + points[0].X) / 2, points[0].Y);
-                }
-            }
-            else
-            {
-                using (Rbrush)
-                {
-                    StringFormat sf = new StringFormat();
-                    g.DrawString("B", this.Font, Rbrush, points[1].X, points[1].Y - 10);
-                    g.DrawString("C", this.Font, Rbrush, points[0].X, points[0].Y);
-                    g.DrawString("A", this.Font, Rbrush, points[2].X - 5, points[2].Y);
-
-                }
-                using (Bbrush)
-                {
-                    StringFormat sf = new StringFormat();
-                    g.DrawString("b", this.Font, Bbrush, (points[2].X + points[0].X) / 2, (points[2].Y + points[0].Y) / 2);
-                    g.DrawString("c", this.Font, Bbrush, (points[1].X + points[2].X) / 2 + 10, (points[2].Y + points[1].Y) / 2 - 10);
-                    g.DrawString("a", this.Font, Bbrush, Math.Abs((points[1].X - points[0].X)) - 15, (points[1].Y + points[0].Y) / 2);
-                }
-            }
+            KeyReader(sender as TextBox, e);
         }
 
         /// <summary>
@@ -323,12 +360,66 @@ namespace TriangleCalculator
                     break;
             }
         }
+        #endregion
 
-        private void Angle3_KeyPress(object sender, KeyPressEventArgs e)
+        #region Painting
+        /// <summary>
+        /// This is a painting function that gathers the points that resulted from the GetPoints functions and draws a triangle in black to match them.
+        /// It also leverages a previously defined variable "drawType" to determine whether a right triangle is being created (which would require a different point 
+        /// structe to preserve the right angle), or if a nonRight is being made. It uses a red color scheme to write angles, and a blue color scheme to write sides.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            KeyReader(sender as TextBox, e);
+            Graphics g = panel1.CreateGraphics();
+            Pen p = new Pen(Color.Black);
+            g.DrawPolygon(p, points);
+            SolidBrush Bbrush = new SolidBrush(Color.Blue);
+            SolidBrush Rbrush = new SolidBrush(Color.Red);
+            if (drawType == true)
+            {
+                using (Rbrush)
+                {
+                    StringFormat sf = new StringFormat();
+                    g.DrawString("B", this.Font, Rbrush, points[1].X, points[1].Y - 10);
+                    g.DrawString("C", this.Font, Rbrush, points[0].X, points[0].Y - 20);
+                    g.DrawString("A", this.Font, Rbrush, points[2].X, points[2].Y + 10);
+
+                }
+                using (Bbrush)
+                {
+                    StringFormat sf = new StringFormat();
+                    g.DrawString("b", this.Font, Bbrush, points[2].X - 12, (points[2].Y + points[0].Y) / 2);
+                    g.DrawString("c", this.Font, Bbrush, (points[1].X + points[2].X) / 2 + 10, (points[2].Y + points[1].Y) / 2 - 10);
+                    g.DrawString("a", this.Font, Bbrush, (points[1].X + points[0].X) / 2, points[0].Y);
+                }
+            }
+            else
+            {
+                using (Rbrush)
+                {
+                    StringFormat sf = new StringFormat();
+                    g.DrawString("B", this.Font, Rbrush, points[1].X, points[1].Y - 10);
+                    g.DrawString("C", this.Font, Rbrush, points[0].X, points[0].Y);
+                    g.DrawString("A", this.Font, Rbrush, points[2].X - 5, points[2].Y);
+
+                }
+                using (Bbrush)
+                {
+                    StringFormat sf = new StringFormat();
+                    g.DrawString("b", this.Font, Bbrush, (points[2].X + points[0].X) / 2, (points[2].Y + points[0].Y) / 2);
+                    g.DrawString("c", this.Font, Bbrush, (points[1].X + points[2].X) / 2 + 10, (points[2].Y + points[1].Y) / 2 - 10);
+                    g.DrawString("a", this.Font, Bbrush, Math.Abs((points[1].X - points[0].X)) - 15, (points[1].Y + points[0].Y) / 2);
+                }
+            }
         }
 
+        /// <summary>
+        /// This function determines what kind of triangle is going to be drawn, as well as what aspect ratio to use to ensure correct ratio, but not a ratio that 
+        /// would overflow the bounds of the panel. This function also produces the points array used to draw the triangle.
+        /// </summary>
+        /// <param name="t"></param>
         private void GetPoints(Triangle t)
         {
             int[] roundedAngles = new int[3];
@@ -362,8 +453,7 @@ namespace TriangleCalculator
                 points[2] = new Point(newWidth, 250);
             }
         }
-
+        #endregion
     }
-    #endregion
 }
 

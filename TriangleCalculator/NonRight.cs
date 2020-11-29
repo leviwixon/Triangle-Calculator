@@ -17,11 +17,15 @@ namespace TriangleCalculator
                 updateTotals();
             }
         }
+        /// <summary>
+        /// This constructor is made to allow proper inheritance from NonRight into Special.
+        /// </summary>
         public NonRight()
         {
 
         }
 
+        #region CalcSides
         /// <summary>
         /// Chooses what kind of triangle has been inputed, and solves it based on the side and angle total.
         /// </summary>
@@ -112,63 +116,6 @@ namespace TriangleCalculator
         }
 
         /// <summary>
-        /// Uses the rules surrounding acute angle SSA's of this type to determine if a triangle(s) is even possible.
-        /// </summary>
-        /// <param name="height"></param>
-        /// <param name="supplement"></param>
-        private void AcuteAngle(double height, double supplement)
-        {
-            if (tmpSide < height)
-            {
-                Invalidate();
-            }
-            else if (tmpSide == height)
-            {
-                triType = 1;
-            }
-            else if (tmpSide > height && tmpSide > tmpLarSide)
-            {
-                triType = 1;
-            }
-            else if (tmpSide > height && tmpSide < tmpLarSide && 180 - supplement > 0)
-            {
-                triType = 2;
-            }
-        }
-
-        /// <summary>
-        /// Uses Obtuse angle rules to determine if a triangle(s) is even possible.
-        /// </summary>
-        private void ObtuseAngle()
-        {
-            if (tmpAngle > 90 && tmpSide <= tmpLarSide)
-            {
-                Invalidate();
-            }
-            else if (tmpAngle > 90 && tmpSide > tmpLarSide)
-            {
-                triType = 1;
-            }
-        }
-
-        /// <summary>
-        /// Finds supplementary angle and returns it for use in determining triangle viability.
-        /// </summary>
-        /// <returns></returns>
-        private double findSupplement()
-        {
-            double val = 180;
-            for (int i = 0; i < 3; i++)
-            {
-                if (a[i] != tmpAngle && a[i] < 90)
-                {
-                    val = a[i];
-                }
-            }
-            return val;
-        }
-
-        /// <summary>
         /// Solves SSA triangles for both non-special cases, as well as special cases.
         /// </summary>
         public void SSANonSpecial()
@@ -225,6 +172,65 @@ namespace TriangleCalculator
             double angle = DegToRad(a[2]);
             angle = Math.Sin(angle);
             Area = (s[0] * s[1] * angle) / 2;
+        }
+        #endregion
+
+        #region HelperFunctions
+        /// <summary>
+        /// Uses the rules surrounding acute angle SSA's of this type to determine if a triangle(s) is even possible.
+        /// </summary>
+        /// <param name="height"></param>
+        /// <param name="supplement"></param>
+        private void AcuteAngle(double height, double supplement)
+        {
+            if (tmpSide < height)
+            {
+                Invalidate();
+            }
+            else if (tmpSide == height)
+            {
+                triType = 1;
+            }
+            else if (tmpSide > height && tmpSide > tmpLarSide)
+            {
+                triType = 1;
+            }
+            else if (tmpSide > height && tmpSide < tmpLarSide && 180 - supplement > 0)
+            {
+                triType = 2;
+            }
+        }
+
+        /// <summary>
+        /// Uses Obtuse angle rules to determine if a triangle(s) is even possible.
+        /// </summary>
+        private void ObtuseAngle()
+        {
+            if (tmpAngle > 90 && tmpSide <= tmpLarSide)
+            {
+                Invalidate();
+            }
+            else if (tmpAngle > 90 && tmpSide > tmpLarSide)
+            {
+                triType = 1;
+            }
+        }
+
+        /// <summary>
+        /// Finds supplementary angle and returns it for use in determining triangle viability.
+        /// </summary>
+        /// <returns></returns>
+        private double findSupplement()
+        {
+            double val = 180;
+            for (int i = 0; i < 3; i++)
+            {
+                if (a[i] != tmpAngle && a[i] < 90)
+                {
+                    val = a[i];
+                }
+            }
+            return val;
         }
 
         /// <summary>
@@ -304,6 +310,9 @@ namespace TriangleCalculator
 
         }
 
+        #endregion
+
+        #region Validation
         /// <summary>
         /// Does some basic checks to determine whether or not the calculate triangle actually follows rules correctly,
         /// otherwise the user may have had an invalid triangle.
@@ -341,5 +350,6 @@ namespace TriangleCalculator
                 }
             }
         }
+        #endregion
     }
 }

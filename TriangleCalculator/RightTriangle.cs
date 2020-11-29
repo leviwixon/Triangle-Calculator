@@ -5,9 +5,6 @@ namespace TriangleCalculator
     class RightTriangle : Triangle
     {
         private int rightIndex;
-
-
-
         public RightTriangle(double[] angles, double[] sides)
         {
             for (int i = 0; i < 3; i++)
@@ -27,6 +24,7 @@ namespace TriangleCalculator
             }
         }
 
+        #region CalcSides
         /// <summary>
         /// Helper function that points the program in the direction in which it will find the triangle's answer (SSA or SAA).
         /// This is more specific to a right triangle, as a Non Right triangle has further possibilities (e.g SSS triangles).
@@ -79,6 +77,9 @@ namespace TriangleCalculator
             }
         }
 
+        /// <summary>
+        /// After getting the third side, this finds the remaining angles.
+        /// </summary>
         private void tryCalcsSSA()
         {
             findThirdSSA();
@@ -127,14 +128,20 @@ namespace TriangleCalculator
                 }
             }
         }
+        #endregion
+
+        #region HelperFunctions
         /// <summary>
-        /// 
+        /// Finds the area.
         /// </summary>
         public override void findArea()
         {
             this.Area = (s[0] * s[1]) / 2;
         }
 
+        /// <summary>
+        /// This function updates the total angles and sides. It has to differ from the non-right iteration because it must know the rightIndex.
+        /// </summary>
         private void updateTotals()
         {
             totalSides = 0;
@@ -188,6 +195,14 @@ namespace TriangleCalculator
                 a[0] = tmpa;
             }
         }
+        #endregion
+
+        #region Validation
+        /// <summary>
+        /// This puts the triangle through some basic validity checks. While it is possible for a triangle to be calculated with most measurements,
+        /// the resulting values can be invalid if they break certain rules. This means a calculable triangle is not necessarily a true triangle,
+        /// and this should weed out those cases.
+        /// </summary>
         private void CheckValid()
         {
             if (a[0] + a[1] + a[2] > maxAngle)
@@ -202,5 +217,6 @@ namespace TriangleCalculator
                 }
             }
         }
+        #endregion
     }
 }

@@ -14,6 +14,10 @@ namespace TriangleCalculator
             }
         }
 
+        /// <summary>
+        /// This is a tweaked nonRight CalcSides that changes an angle from a solved nonright triangle, making it the supplement. It follows this up
+        /// by tweaking a couple of values that depended on the previous angle, creating the secondary possible triangle.
+        /// </summary>
         public override void CalcSides()
         {
             updateTotals();
@@ -38,6 +42,9 @@ namespace TriangleCalculator
             }
         }
 
+        /// <summary>
+        /// Finds the values that must change for the new angle, and changes them.
+        /// </summary>
         private void Change()
         {
             for (int i = 0; i < 3; i++)
@@ -50,6 +57,9 @@ namespace TriangleCalculator
             }
         }
 
+        /// <summary>
+        /// FindArea just like previous iterations.
+        /// </summary>
         public override void findArea()
         {
             double angle = DegToRad(a[2]);
