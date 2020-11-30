@@ -2,6 +2,9 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using TriangleCalculator.Triangles;
+using TriangleCalculator.Triangles.SubClasses;
+
 
 namespace TriangleCalculator
 {

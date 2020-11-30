@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TriangleCalculator
+namespace TriangleCalculator.Triangles
 {
     public abstract class Triangle
     {

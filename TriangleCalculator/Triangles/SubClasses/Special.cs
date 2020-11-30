@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Linq;
 
-namespace TriangleCalculator
+namespace TriangleCalculator.Triangles.SubClasses
 {
     class SpecialCase : NonRight
     {
