@@ -5,7 +5,7 @@ namespace TriangleCalculator
     public abstract class Triangle
     {
         public static double maxAngle = 180.00;
-        public double _area, _perimeter = 0;
+        protected double _area, _perimeter = 0;
         public int totalSides, totalAngles = 0;
         private int _triType = 1;
         public double tmpa, tmps;

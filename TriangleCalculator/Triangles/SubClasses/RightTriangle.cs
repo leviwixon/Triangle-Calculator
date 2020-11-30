@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace TriangleCalculator
 {
@@ -217,6 +218,14 @@ namespace TriangleCalculator
                 {
                     Invalidate();
                 }
+                if (double.IsNaN(a[i]) || double.IsNaN(s[i]))
+                {
+                    Invalidate();
+                }
+            }
+            if (a.Contains(0) || s.Contains(0))
+            {
+                Invalidate();
             }
         }
 

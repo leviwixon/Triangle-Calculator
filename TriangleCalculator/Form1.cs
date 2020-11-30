@@ -108,11 +108,21 @@ namespace TriangleCalculator
         private void RightSolve(Triangle tri)
         {
             tri.FindTri();
-            GetPoints(tri);
-            panel1.Paint += new PaintEventHandler(panel1_Paint);
-            panel1.Visible = true;
-            panel1.Refresh();
-            PrintAnswers(tri);
+            if (!tri.InvalidTri)
+            {
+                GetPoints(tri);
+                PrintAnswers(tri);
+                panel1.Paint += new PaintEventHandler(panel1_Paint);
+                panel1.Visible = true;
+                panel1.Refresh();
+            }
+            else
+            {
+                WarningLabel.Text = "Invalid triangle. Try again with different measurements.";
+                WarningLabel.Visible = true;
+                panel1.Visible = false;
+            }
+
         }
         #endregion
 
@@ -124,15 +134,24 @@ namespace TriangleCalculator
         private void NonRightSolve(Triangle tri)
         {
             tri.FindTri();
-            GetPoints(tri);
-            panel1.Paint += new PaintEventHandler(panel1_Paint);
-            panel1.Visible = true;
-            panel1.Refresh();
-            if (tri.TriType == 2)
+            if (!tri.InvalidTri)
             {
-                TriSwitch.Visible = true;
+                GetPoints(tri);
+                panel1.Paint += new PaintEventHandler(panel1_Paint);
+                panel1.Visible = true;
+                panel1.Refresh();
+                if (tri.TriType == 2)
+                {
+                    TriSwitch.Visible = true;
+                }
+                PrintAnswers(tri);
             }
-            PrintAnswers(tri);
+            else
+            {
+                WarningLabel.Text = "Invalid triangle. Try again with different measurements.";
+                WarningLabel.Visible = true;
+                panel1.Visible = false;
+            }
         }
 
         private void TriSwitch_Click(object sender, EventArgs e)
@@ -215,7 +234,7 @@ namespace TriangleCalculator
         /// <param name="t"></param>
         private void PrintAnswers(Triangle t)
         {
-            if (!t.InvalidTri && t.TriType != 0)
+            if (!t.InvalidTri || t.TriType != 0)
             {
                 double tmpa, tmps;
                 int n = 3;
@@ -247,12 +266,7 @@ namespace TriangleCalculator
                 Perim.Visible = true;
                 AreaLbl.Visible = true;
             }
-            else
-            {
-                WarningLabel.Text = "Invalid triangle. Try again with different measurements.";
-                WarningLabel.Visible = true;
-                panel1.Visible = false;
-            }
+            
         }
 
         /// <summary>
