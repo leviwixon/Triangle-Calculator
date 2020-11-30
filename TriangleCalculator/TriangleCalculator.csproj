@@ -47,9 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Special.cs" />
-    <Compile Include="RightTriangle.cs" />
-    <Compile Include="NonRight.cs" />
+    <Compile Include="Triangles\SubClasses\Special.cs" />
+    <Compile Include="Triangles\SubClasses\RightTriangle.cs" />
+    <Compile Include="Triangles\SubClasses\NonRight.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,7 +58,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Triangle.cs" />
+    <Compile Include="Triangles\Triangle.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

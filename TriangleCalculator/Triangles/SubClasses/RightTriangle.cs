@@ -24,12 +24,14 @@ namespace TriangleCalculator
             }
         }
 
+        
+
         #region CalcSides
         /// <summary>
         /// Helper function that points the program in the direction in which it will find the triangle's answer (SSA or SAA).
         /// This is more specific to a right triangle, as a Non Right triangle has further possibilities (e.g SSS triangles).
         /// </summary>
-        public override void CalcSides()
+        protected override void CalcSides()
         {
             if (totalAngles >= 2)
             {
@@ -134,9 +136,9 @@ namespace TriangleCalculator
         /// <summary>
         /// Finds the area.
         /// </summary>
-        public override void findArea()
+        protected override void findArea()
         {
-            this.Area = (s[0] * s[1]) / 2;
+            this._area = (s[0] * s[1]) / 2;
         }
 
         /// <summary>
@@ -217,6 +219,7 @@ namespace TriangleCalculator
                 }
             }
         }
+
         #endregion
     }
 }

@@ -5,20 +5,53 @@ namespace TriangleCalculator
     public abstract class Triangle
     {
         public static double maxAngle = 180.00;
-        public double Area, Perimeter = 0;
+        public double _area, _perimeter = 0;
         public int totalSides, totalAngles = 0;
-        public int triType = 1;
+        private int _triType = 1;
         public double tmpa, tmps;
-        public bool invalidTri = false;
+        private bool _invalidTri = false;
         public double[] a = new double[3];
         public double[] s = new double[3];
 
-        public abstract void findArea();
-        public abstract void CalcSides();
+        public bool InvalidTri { get { return this._invalidTri; } }
+        public int TriType { 
+            get
+            {
+                return this._triType;
+            }
+            set
+            {
+                if (value >= 0 && value <= 3)
+                {
+                    this._triType = value;
+                }
+            }
+        }
+        public double Perimeter { get
+            {
+                return this._perimeter;
+            }
+        }
+        public double Area { get
+            {
+                return this._area;
+            }
+        }
 
-        public void perimeter()
+
+        protected abstract void findArea();
+        protected abstract void CalcSides();
+
+        public void FindTri()
         {
-            Perimeter = s[0] + s[1] + s[2];
+            CalcSides();
+            findArea();
+            perimeter();
+        }
+
+        protected void perimeter()
+        {
+            _perimeter = s[0] + s[1] + s[2];
         }
 
         public double LawofCos(double A, double b, double c)
@@ -71,7 +104,9 @@ namespace TriangleCalculator
         }
         public void Invalidate()
         {
-            invalidTri = true;
+            _invalidTri = true;
         }
+
+
     }
 }

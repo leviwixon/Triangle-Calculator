@@ -29,7 +29,7 @@ namespace TriangleCalculator
         /// <summary>
         /// Chooses what kind of triangle has been inputed, and solves it based on the side and angle total.
         /// </summary>
-        public override void CalcSides()
+        protected override void CalcSides()
         {
             {
                 updateTotals();
@@ -49,9 +49,9 @@ namespace TriangleCalculator
                     tryCalcsSAA();
                 }
                 InvalidCheck();
-                if (invalidTri == true)
+                if (InvalidTri == true)
                 {
-                    triType = 0;
+                    TriType = 0;
                 }
             }
         }
@@ -167,11 +167,11 @@ namespace TriangleCalculator
         /// <summary>
         /// Area function specific to non-right triangles.
         /// </summary> 
-        public override void findArea()
+        protected override void findArea()
         {
             double angle = DegToRad(a[2]);
             angle = Math.Sin(angle);
-            Area = (s[0] * s[1] * angle) / 2;
+            _area = (s[0] * s[1] * angle) / 2;
         }
         #endregion
 
@@ -189,19 +189,19 @@ namespace TriangleCalculator
             }
             else if (tmpSide == height)
             {
-                triType = 1;
+                TriType = 1;
             }
             else if (tmpSide > height && tmpSide > tmpLarSide)
             {
-                triType = 1;
+                TriType = 1;
             }
             else if (tmpSide > height && tmpSide < tmpLarSide && 180 - supplement > 0)
             {
-                triType = 2;
+                TriType = 2;
             }
             if (RightExists())
             {
-                triType = 1;
+                TriType = 1;
             }
         }
 
@@ -216,7 +216,7 @@ namespace TriangleCalculator
             }
             else if (tmpAngle > 90 && tmpSide > tmpLarSide)
             {
-                triType = 1;
+                TriType = 1;
             }
         }
 

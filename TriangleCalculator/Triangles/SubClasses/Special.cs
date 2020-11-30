@@ -18,7 +18,7 @@ namespace TriangleCalculator
         /// This is a tweaked nonRight CalcSides that changes an angle from a solved nonright triangle, making it the supplement. It follows this up
         /// by tweaking a couple of values that depended on the previous angle, creating the secondary possible triangle.
         /// </summary>
-        public override void CalcSides()
+        protected override void CalcSides()
         {
             updateTotals();
             if (totalAngles != 3 && totalSides != 3)
@@ -60,11 +60,11 @@ namespace TriangleCalculator
         /// <summary>
         /// FindArea just like previous iterations.
         /// </summary>
-        public override void findArea()
+        protected override void findArea()
         {
             double angle = DegToRad(a[2]);
             angle = Math.Sin(angle);
-            Area = (s[0] * s[1] * angle) / 2;
+            _area = (s[0] * s[1] * angle) / 2;
         }
     }
 }
